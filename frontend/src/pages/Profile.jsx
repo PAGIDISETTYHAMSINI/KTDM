@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Settings, Shield, Bell, LogOut, ChevronRight, BadgeCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { User, Settings, Shield, Bell, LogOut, ChevronRight, BadgeCheck, LayoutDashboard, BarChart3 } from 'lucide-react';
 
 const Profile = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-[4.5rem] pb-[5.5rem] text-white">
       <div className="px-5 mb-8">
@@ -38,8 +40,31 @@ const Profile = () => {
          ))}
       </div>
 
+      {/* Admin/Reporter Access (Mock for Testing Roles) */}
+      <div className="px-5 mb-8">
+         <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Access Control</h3>
+         <div className="grid grid-cols-2 gap-3">
+            <motion.button 
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/admin')}
+              className="glass p-4 rounded-2xl border-white/5 flex flex-col items-center gap-2 bg-purple-500/5"
+            >
+               <LayoutDashboard size={20} className="text-purple-500" />
+               <span className="text-[10px] font-black uppercase">Admin Panel</span>
+            </motion.button>
+            <motion.button 
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/reporter')}
+              className="glass p-4 rounded-2xl border-white/5 flex flex-col items-center gap-2 bg-orange-500/5"
+            >
+               <BarChart3 size={20} className="text-orange-500" />
+               <span className="text-[10px] font-black uppercase">Reporter Studio</span>
+            </motion.button>
+         </div>
+      </div>
+
       {/* Menu */}
-      <div className="px-5 space-y-3">
+      <div className="px-5 space-y-3 pb-8">
          {[
            { icon: User, label: 'Edit Account', sub: 'Personal information' },
            { icon: Bell, label: 'Notifications', sub: 'Local alerts & news' },

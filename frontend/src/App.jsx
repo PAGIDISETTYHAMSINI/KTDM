@@ -10,6 +10,8 @@ import FoodPage from './pages/FoodPage';
 import Emergency from './pages/Emergency';
 import SavedPage from './pages/SavedPage';
 import Profile from './pages/Profile';
+import AdminDashboard from './pages/AdminDashboard';
+import ReporterDashboard from './pages/ReporterDashboard';
 import PlaceDetail from './pages/PlaceDetail';
 
 export default function App() {
@@ -25,6 +27,8 @@ export default function App() {
         <Route path="/saved" element={<SavedPage />} />
 
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/reporter" element={<ReporterDashboard />} />
         <Route path="/place/:id" element={<PlaceDetail />} />
       </Routes>
       <BottomNav />
