@@ -81,7 +81,7 @@ const Home = () => {
             </motion.button>
             <motion.button whileTap={{ scale: 0.95 }} onClick={() => navigate('/explore')}
               className="btn-glass" style={{ padding: '0.75rem 1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <MapPin size={16} /> Explore Places
+              <MapPin size={16} /> Mana Uru
             </motion.button>
           </div>
 
@@ -198,9 +198,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── Bhadradri Special ─────────────────────── */}
+      {/* ── Mana Uru Section ─────────────────────── */}
       <section style={{ padding: '0.5rem 1.25rem 1.5rem' }}>
-        <h2 style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '1rem' }}>🏛️ Bhadradri Specials</h2>
+        <h2 style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '1rem' }}>🏙️ Mana Uru Kothagudem</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
           {[
             { emoji: '🌊', name: 'Bogatha Waterfall', tag: 'Niagara of Telangana', color: '#0ea5e9', id: 'p2' },

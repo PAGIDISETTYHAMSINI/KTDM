@@ -1,90 +1,304 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Filter, Search, SlidersHorizontal } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
-import PlaceCard from '../components/places/PlaceCard';
-import { TOURIST_PLACES, RESTAURANTS, HOTELS, CATEGORIES } from '../data/kothagudemData';
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  MapPin, Search, Navigation, Star, Clock, 
+  Shield, Utensils, ShoppingBag, Hotel, 
+  GraduationCap, Film, Compass, CloudRain,
+  TrendingUp, Zap, Radio, LayoutGrid, Map as MapIcon,
+  Filter, Bell, Sparkles, ChevronRight
+} from 'lucide-react';
+import useStore from '../stores/useStore';
+import { KOTHAGUDEM_PLACES, LOCAL_NEWS, CURRENT_WEATHER, HIDDEN_GEMS, AI_SUGGESTIONS } from '../data/kothagudemFull';
+import SectionRow from '../components/explore/SectionRow';
+import { useGeolocation } from '../hooks/useGeolocation';
 
-const ALL_ITEMS = [...TOURIST_PLACES, ...RESTAURANTS.map(r => ({ ...r, category: 'Restaurant', description: r.speciality || '', images: r.images, rating: r.rating, reviews_count: r.reviews_count, featured: false })), ...HOTELS.map(h => ({ ...h, category: 'Hotel', description: h.amenities?.join(', ') || '', images: h.images, rating: h.rating, reviews_count: h.reviews_count, featured: false }))];
+const ManaUru = () => {
+  const { setActiveTab, userLocation } = useStore();
+  const { loading: locLoading } = useGeolocation();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
 
-const Explore = () => {
-  const [searchParams] = useSearchParams();
-  const defaultCat = searchParams.get('category') || 'all';
-  const [activeFilter, setActiveFilter] = useState(defaultCat);
-  const [sort, setSort] = useState('rating');
+  useEffect(() => {
+    setActiveTab('explore');
+  }, [setActiveTab]);
 
-  const FILTERS = [{ id: 'all', label: 'All', icon: '🌐' }, ...CATEGORIES.slice(0, 8).map(c => ({ id: c.id, label: c.name.split(' ')[0], icon: c.icon }))];
+  // AI Recommendation Logic: Get places based on time/weather
+  const aiRecs = useMemo(() => {
+    const hour = new Date().getHours();
+    let timeKey = 'morning';
+    if (hour >= 11 && hour < 17) timeKey = 'afternoon';
+    else if (hour >= 17 && hour < 22) timeKey = 'evening';
+    
+    const suggestedCats = AI_SUGGESTIONS[timeKey].places;
+    const allPlaces = Object.values(KOTHAGUDEM_PLACES).flat();
+    
+    return {
+      title: `AI Pick for ${AI_SUGGESTIONS[timeKey].time}`,
+      reason: AI_SUGGESTIONS[timeKey].reason,
+      places: allPlaces.filter(p => suggestedCats.some(c => p.name.includes(c) || p.tags?.some(t => c.toLowerCase().includes(t.toLowerCase())))).slice(0, 5)
+    };
+  }, []);
 
-  const filtered = ALL_ITEMS
-    .filter(p => activeFilter === 'all' || p.category?.toLowerCase().includes(activeFilter.toLowerCase()) ||
-      (activeFilter === 'tourist' && !['Restaurant','Hotel'].includes(p.category)))
-    .sort((a, b) => sort === 'rating' ? b.rating - a.rating : a.name.localeCompare(b.name));
+  // Filter logic for search
+  const allPlaces = useMemo(() => Object.values(KOTHAGUDEM_PLACES).flat(), []);
+  const searchResults = useMemo(() => {
+    if (!searchQuery) return [];
+    return allPlaces.filter(p => 
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      p.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.tags?.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [searchQuery, allPlaces]);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', paddingTop: '4.5rem', paddingBottom: '5rem' }}>
-      {/* Header */}
-      <div style={{ padding: '1rem 1.25rem 0.5rem' }}>
-        <h1 style={{ fontWeight: 900, fontSize: '1.5rem' }}>
-          Explore <span className="gradient-text">Bhadradri</span>
-        </h1>
-        <p style={{ color: '#64748b', fontSize: '0.8rem' }}>{filtered.length} places discovered</p>
-      </div>
-
-      {/* Category Filters */}
-      <div style={{ padding: '0 1rem', marginBottom: '0.5rem' }}>
-        <div style={{ display: 'flex', overflowX: 'auto', gap: '0.5rem', paddingBottom: '0.5rem', scrollbarWidth: 'none' }}>
-          {FILTERS.map(f => (
-            <motion.button
-              key={f.id}
+    <div className="min-h-screen bg-[#0a0a0f] pt-[4.5rem] pb-[5.5rem] text-white overflow-x-hidden">
+      
+      {/* ─── TOP HEADER & SMART WIDGETS ─── */}
+      <div className="px-5 mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h1 className="text-2xl font-black flex items-center gap-2">
+              Mana <span className="gradient-text">Uru</span>
+              <Sparkles className="text-purple-500 w-5 h-5 animate-pulse" />
+            </h1>
+            <p className="text-xs text-slate-500 font-medium tracking-wide">SMART CITY DISCOVERY ENGINE</p>
+          </div>
+          <div className="flex gap-2">
+            <motion.button 
               whileTap={{ scale: 0.9 }}
-              onClick={() => setActiveFilter(f.id)}
-              style={{
-                flexShrink: 0, padding: '0.45rem 1rem',
-                borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700,
-                background: activeFilter === f.id ? 'linear-gradient(135deg,#f97316,#f59e0b)' : 'rgba(255,255,255,0.06)',
-                border: activeFilter === f.id ? 'none' : '1px solid rgba(255,255,255,0.1)',
-                color: activeFilter === f.id ? 'white' : '#94a3b8',
-                cursor: 'pointer', fontFamily: 'Outfit, sans-serif',
-                display: 'flex', alignItems: 'center', gap: '5px',
-              }}
+              onClick={() => setViewMode(viewMode === 'list' ? 'map' : 'list')}
+              className="p-2.5 glass rounded-xl border-white/10"
             >
-              <span>{f.icon}</span> {f.label}
+              {viewMode === 'list' ? <MapIcon size={18} className="text-orange-500" /> : <LayoutGrid size={18} className="text-orange-500" />}
             </motion.button>
-          ))}
+            <motion.button whileTap={{ scale: 0.9 }} className="p-2.5 glass rounded-xl border-white/10">
+              <Bell size={18} className="text-slate-400" />
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative mb-6">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">
+            <Search size={18} />
+          </div>
+          <input 
+            type="text"
+            placeholder="Explore shops, hospitals, food, waterfalls..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full py-3.5 pl-12 pr-4 glass border-white/5 rounded-2xl text-sm focus:outline-none focus:border-orange-500/50 transition-colors"
+          />
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500">
+            <Zap size={16} fill="currentColor" className="animate-pulse" />
+          </div>
+        </div>
+
+        {/* Live News & Weather Widget */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="glass-orange p-3 rounded-2xl border-orange-500/10">
+            <div className="flex items-center gap-2 mb-2">
+              <Radio size={14} className="text-orange-500 animate-pulse" />
+              <span className="text-[10px] font-bold text-orange-500 uppercase tracking-tighter">Live News</span>
+            </div>
+            <div className="h-10 overflow-hidden">
+               <motion.div 
+                 animate={{ y: [0, -40, -80, -120] }} 
+                 transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                 className="space-y-4"
+               >
+                 {LOCAL_NEWS.slice(0, 4).map(n => (
+                   <div key={n.id} className="text-[11px] font-bold leading-tight line-clamp-2">
+                     {n.icon} {n.title}
+                   </div>
+                 ))}
+               </motion.div>
+            </div>
+          </div>
+          
+          <div className="glass p-3 rounded-2xl border-white/5">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-2xl">{CURRENT_WEATHER.icon}</span>
+              <span className="text-lg font-black tracking-tighter">{CURRENT_WEATHER.temp}</span>
+            </div>
+            <div className="text-[10px] text-slate-500 font-bold truncate">
+              {CURRENT_WEATHER.condition} • {CURRENT_WEATHER.travel_tip.split('—')[0]}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Sort */}
-      <div style={{ padding: '0 1.25rem', marginBottom: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-        {['rating', 'name'].map(s => (
-          <button key={s} onClick={() => setSort(s)} style={{
-            padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.72rem', fontWeight: 700,
-            background: sort === s ? 'rgba(249,115,22,0.2)' : 'rgba(255,255,255,0.05)',
-            border: sort === s ? '1px solid #f97316' : '1px solid rgba(255,255,255,0.08)',
-            color: sort === s ? '#f97316' : '#64748b', cursor: 'pointer', fontFamily: 'Outfit, sans-serif',
-          }}>
-            {s === 'rating' ? '⭐ Top Rated' : '🔤 Name'}
-          </button>
-        ))}
+      {/* ─── SEARCH RESULTS ─── */}
+      <AnimatePresence>
+        {searchQuery && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="px-5 mb-8"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-bold text-slate-400 text-sm">Found {searchResults.length} results</h2>
+              <button onClick={() => setSearchQuery('')} className="text-xs text-orange-500 font-bold">Clear</button>
+            </div>
+            <div className="space-y-3">
+               {searchResults.length > 0 ? (
+                 searchResults.map(p => (
+                   <div key={p.id} className="glass p-3 rounded-2xl flex gap-4 items-center">
+                      <img src={p.images[0]} className="w-16 h-16 rounded-xl object-cover" alt="" />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-sm truncate">{p.name}</h4>
+                        <div className="flex items-center gap-1 text-[10px] text-slate-500">
+                          <MapPin size={10} /> {p.address}
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                           <span className="text-[10px] font-bold text-orange-500 flex items-center gap-0.5">
+                             <Star size={10} fill="currentColor" /> {p.rating}
+                           </span>
+                           <span className="text-[10px] text-slate-600">{(p.reviews || 0).toLocaleString()} reviews</span>
+                        </div>
+                      </div>
+                      <motion.button whileTap={{ scale: 0.9 }} className="p-2 bg-orange-500 rounded-lg">
+                         <Navigation size={14} className="text-white" />
+                      </motion.button>
+                   </div>
+                 ))
+               ) : (
+                 <div className="text-center py-10">
+                    <p className="text-slate-500 text-sm">No results for "{searchQuery}"</p>
+                 </div>
+               )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {!searchQuery && (
+        <div className="space-y-2">
+          {/* Section 1: AI Recommendation */}
+          <SectionRow 
+            title={aiRecs.title}
+            emoji="🤖"
+            places={aiRecs.places}
+            color="#a855f7"
+          />
+
+          {/* Section 2: Trending in Kothagudem */}
+          <SectionRow 
+            title="Trending in Kothagudem"
+            emoji="🔥"
+            places={[...KOTHAGUDEM_PLACES.tourist, ...KOTHAGUDEM_PLACES.restaurants].sort((a,b) => b.rating - a.rating).slice(0, 6)}
+            color="#ef4444"
+          />
+
+          {/* Section 3: Best Food Spots */}
+          <SectionRow 
+            title="Best Food Spots"
+            emoji="🍛"
+            places={KOTHAGUDEM_PLACES.restaurants}
+            color="#f97316"
+          />
+
+          {/* Section 4: Emergency & Hospitals */}
+          <SectionRow 
+            title="Emergency & Hospitals"
+            emoji="🏥"
+            places={KOTHAGUDEM_PLACES.hospitals}
+            color="#dc2626"
+          />
+
+          {/* Section 5: Hidden Gems */}
+          <SectionRow 
+            title="Hidden Gems"
+            emoji="💎"
+            places={HIDDEN_GEMS}
+            color="#10b981"
+          />
+
+          {/* Section 6: Shopping & Supermarkets */}
+          <SectionRow 
+            title="Shopping & Markets"
+            emoji="🛍️"
+            places={KOTHAGUDEM_PLACES.shopping}
+            color="#3b82f6"
+          />
+
+          {/* Section 7: Hotels & PGs */}
+          <SectionRow 
+            title="Hotels & PGs"
+            emoji="🏨"
+            places={KOTHAGUDEM_PLACES.hotels}
+            color="#6366f1"
+          />
+
+          {/* Section 8: Tourist Attractions */}
+          <SectionRow 
+            title="Tourist Attractions"
+            emoji="🏛️"
+            places={KOTHAGUDEM_PLACES.tourist}
+            color="#ec4899"
+          />
+
+          {/* Section 9: Colleges & Schools */}
+          <SectionRow 
+            title="Colleges & Schools"
+            emoji="🎓"
+            places={KOTHAGUDEM_PLACES.education}
+            color="#f59e0b"
+          />
+
+          {/* Section 10: Entertainment Zones */}
+          <SectionRow 
+            title="Entertainment Zones"
+            emoji="🍿"
+            places={KOTHAGUDEM_PLACES.entertainment}
+            color="#8b5cf6"
+          />
+
+          {/* Section 11: Transport & Services */}
+          <SectionRow 
+            title="Transport & Services"
+            emoji="⛽"
+            places={KOTHAGUDEM_PLACES.transport}
+            color="#64748b"
+          />
+
+          {/* Section 12: Rainy Day Recommendations */}
+          {CURRENT_WEATHER.condition.toLowerCase().includes('cloud') || CURRENT_WEATHER.condition.toLowerCase().includes('rain') ? (
+            <SectionRow 
+              title="Rainy Day Picks"
+              emoji="☔"
+              places={allPlaces.filter(p => AI_SUGGESTIONS.rainy.places.some(c => p.name.includes(c) || p.tags?.some(t => c.toLowerCase().includes(t.toLowerCase())))).slice(0, 5)}
+              color="#0ea5e9"
+            />
+          ) : null}
+        </div>
+      )}
+
+      {/* ─── BOTTOM FLOATING BAR FOR MOBILE ─── */}
+      <div className="fixed bottom-20 left-5 right-5 z-[40]">
+         <motion.div 
+           initial={{ y: 50, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           className="glass p-4 rounded-3xl border-white/10 flex items-center justify-between shadow-2xl"
+         >
+            <div className="flex items-center gap-3">
+               <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500">
+                  <MapPin size={20} />
+               </div>
+               <div>
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Nearby Kothagudem</div>
+                  <div className="text-xs font-bold truncate max-w-[150px]">Detecting Live Location...</div>
+               </div>
+            </div>
+            <button className="bg-orange-500 text-white px-5 py-2 rounded-xl text-xs font-black flex items-center gap-1.5">
+               <Zap size={14} fill="currentColor" /> SYNC MAP
+            </button>
+         </motion.div>
       </div>
 
-      {/* Places Grid */}
-      <div style={{ padding: '0 1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
-            <div style={{ fontWeight: 600 }}>No places found</div>
-          </div>
-        ) : (
-          filtered.map((place, i) => (
-            <motion.div key={place.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
-              <PlaceCard place={place} />
-            </motion.div>
-          ))
-        )}
-      </div>
     </div>
   );
 };
 
-export default Explore;
+export default ManaUru;

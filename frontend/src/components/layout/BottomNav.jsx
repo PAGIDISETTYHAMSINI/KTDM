@@ -5,7 +5,7 @@ import { Home, Map, Compass, Utensils, Shield, Bookmark } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/', icon: Home, label: 'Home' },
-  { path: '/explore', icon: Compass, label: 'Explore' },
+  { path: '/explore', icon: Compass, label: 'Mana Uru' },
   { path: '/map', icon: Map, label: 'Map' },
   { path: '/food', icon: Utensils, label: 'Food' },
   { path: '/emergency', icon: Shield, label: 'SOS' },
