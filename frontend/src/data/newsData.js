@@ -102,6 +102,45 @@ export const KOTHAGUDEM_NEWS = [
   }
 ];
 
+export const KOTHAGUDEM_ARTICLES = [
+  {
+    id: "art1",
+    title: "The Coal Capital: A History of Kothagudem and SCCL",
+    summary: "How a small forest settlement transformed into the energy hub of South India through coal mining heritage.",
+    content: "The history of Kothagudem is inseparable from the Singareni Collieries Company Limited (SCCL). It began in the late 19th century when British geologists discovered vast coal seams in the Godavari valley. Since then, the 'Black Gold' of Kothagudem has powered the locomotives and power plants of a developing nation. This article explores the evolution of the mining colony into a bustling industrial town.",
+    author: "Heritage Desk",
+    category: "History",
+    date: "2024-05-10",
+    image: "https://images.unsplash.com/photo-1518005020250-6759229548b9?w=800",
+    readTime: "8 min read",
+    likes: "1.2K"
+  },
+  {
+    id: "art2",
+    title: "Secrets of the Kinnerasani: Exploring the Wildlife Corridor",
+    summary: "An in-depth look at the diverse flora and fauna that call the Kinnerasani Sanctuary their home.",
+    content: "Nestled in the Dandakaranya forest range, the Kinnerasani Wildlife Sanctuary is a biodiversity hotspot. From the elusive leopard to the vibrant peacock, the sanctuary is a sanctuary in the truest sense. Our nature experts spent a week in the forest tracking the seasonal migration of birds and the conservation efforts by the local forest department.",
+    author: "Eco Watch",
+    category: "Nature",
+    date: "2024-05-08",
+    image: "https://images.unsplash.com/photo-1547460119-78604475131f?w=800",
+    readTime: "6 min read",
+    likes: "850"
+  },
+  {
+    id: "art3",
+    title: "Authentic Tribal Cuisine: Beyond the Bamboo Chicken",
+    summary: "Discover the forgotten recipes and unique cooking styles of the Koya and Gond tribes of Bhadradri.",
+    content: "While Bamboo Chicken has become a popular tourist attraction, the culinary heritage of the local tribes is much deeper. Use of forest-foraged greens, various millets, and unique smoking techniques define the local palate. We sat down with tribal elders in Manuguru to document recipes that have been passed down for generations.",
+    author: "Food & Culture",
+    category: "Culture",
+    date: "2024-05-05",
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800",
+    readTime: "10 min read",
+    likes: "2.4K"
+  }
+];
+
 export const LOCAL_ALERTS = [
   { id: "a1", type: "Urgent", message: "Power cut in Vidyanagar tomorrow from 9AM to 1PM due to maintenance.", time: "1 hour ago" },
   { id: "a2", type: "Water", message: "Drinking water supply delayed by 2 hours in SCCL Colony today.", time: "3 hours ago" },

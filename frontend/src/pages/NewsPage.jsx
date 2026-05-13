@@ -5,8 +5,9 @@ import {
   ChevronRight, Sparkles, AlertTriangle,
   Zap, Info, TrendingUp
 } from 'lucide-react';
-import { KOTHAGUDEM_NEWS, NEWS_CATEGORIES, LOCAL_ALERTS } from '../data/newsData';
+import { KOTHAGUDEM_NEWS, NEWS_CATEGORIES, LOCAL_ALERTS, KOTHAGUDEM_ARTICLES } from '../data/newsData';
 import NewsCard from '../components/news/NewsCard';
+import { BookOpen, Heart } from 'lucide-react';
 
 const NewsPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -107,6 +108,54 @@ const NewsPage = () => {
                 <div key={news.id} className="w-[280px] flex-shrink-0">
                    <NewsCard news={news} />
                 </div>
+              ))}
+           </div>
+        </div>
+      )}
+
+      {/* ─── FEATURED ARTICLES (Immersive) ─── */}
+      {activeCategory === 'all' && (
+        <div className="mb-10">
+           <div className="px-5 flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                 <BookOpen size={18} className="text-purple-500" />
+                 <h2 className="font-black text-sm tracking-tight uppercase">Featured Articles</h2>
+              </div>
+              <span className="text-[10px] font-bold text-slate-500">KOTHAGUDEM HERITAGE</span>
+           </div>
+           <div className="flex overflow-x-auto gap-5 px-5 pb-2 scrollbar-none">
+              {KOTHAGUDEM_ARTICLES.map(art => (
+                <motion.div 
+                  key={art.id} 
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[300px] flex-shrink-0 glass rounded-3xl overflow-hidden border-white/5 shadow-2xl"
+                >
+                   <div className="relative h-40">
+                      <img src={art.image} className="w-full h-full object-cover" alt="" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                      <div className="absolute top-3 left-3 bg-purple-600 text-white text-[9px] font-black px-2 py-1 rounded-md">
+                        {art.category.toUpperCase()}
+                      </div>
+                      <div className="absolute bottom-3 left-3 right-3">
+                         <h4 className="text-sm font-black leading-tight text-white line-clamp-2">
+                           {art.title}
+                         </h4>
+                      </div>
+                   </div>
+                   <div className="p-4">
+                      <p className="text-[11px] text-slate-400 line-clamp-2 mb-4 leading-relaxed">
+                        {art.summary}
+                      </p>
+                      <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-2 text-[10px] text-slate-500 font-bold">
+                            <Clock size={10} /> {art.readTime}
+                         </div>
+                         <div className="flex items-center gap-1 text-[10px] font-bold text-slate-500">
+                            <Heart size={10} className="text-red-500" fill="currentColor" /> {art.likes}
+                         </div>
+                      </div>
+                   </div>
+                </motion.div>
               ))}
            </div>
         </div>
