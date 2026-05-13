@@ -4,6 +4,7 @@ import { MapPin, ArrowRight, Sparkles, TrendingUp, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PlaceCard from '../components/places/PlaceCard';
 import { TOURIST_PLACES, CATEGORIES, WEATHER_INFO, TRIP_TEMPLATES } from '../data/kothagudemData';
+import { KOTHAGUDEM_NEWS } from '../data/newsData';
 import useStore from '../stores/useStore';
 
 const stagger = {
@@ -95,6 +96,43 @@ const Home = () => {
             ))}
           </div>
         </motion.div>
+      </section>
+
+      {/* ── Latest News Section ────────────────────────── */}
+      <section style={{ padding: '1rem 1.25rem 0.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <div>
+            <h2 style={{ fontWeight: 800, fontSize: '1.1rem' }}>🗞️ Latest News</h2>
+            <p style={{ fontSize: '0.72rem', color: '#64748b' }}>Verified updates from Kothagudem</p>
+          </div>
+          <button onClick={() => navigate('/news')} style={{ background: 'none', border: 'none', color: '#f97316', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            Read all <ArrowRight size={14} />
+          </button>
+        </div>
+        <div style={{ display: 'flex', overflowX: 'auto', gap: '0.75rem', paddingBottom: '0.5rem', scrollbarWidth: 'none' }}>
+          {KOTHAGUDEM_NEWS.slice(0, 3).map(news => (
+            <motion.div
+              key={news.id}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/news')}
+              style={{
+                flexShrink: 0, width: 260,
+                background: '#12121a', border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: '20px', overflow: 'hidden',
+              }}
+            >
+              <img src={news.image} style={{ width: '100%', height: 120, objectFit: 'cover' }} alt="" />
+              <div style={{ padding: '0.75rem' }}>
+                <div style={{ fontSize: '0.65rem', color: '#f97316', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.2rem' }}>{news.category}</div>
+                <div style={{ fontWeight: 700, fontSize: '0.85rem', lineHeight: 1.3, height: '2.6rem', overflow: 'hidden' }}>{news.title}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem', fontSize: '0.65rem', color: '#64748b' }}>
+                  <span>{news.time}</span>
+                  <span style={{ color: '#0ea5e9' }}>{news.views} views</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       {/* ── Weather Strip ─────────────────────────────── */}

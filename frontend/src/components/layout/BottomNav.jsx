@@ -1,13 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, Map, Compass, Utensils, Shield, Bookmark } from 'lucide-react';
+import { Home, Map, Compass, Utensils, Shield, Bookmark, Radio } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/', icon: Home, label: 'Home' },
+  { path: '/news', icon: Radio, label: 'News' },
   { path: '/explore', icon: Compass, label: 'Mana Uru' },
-  { path: '/map', icon: Map, label: 'Map' },
-  { path: '/food', icon: Utensils, label: 'Food' },
   { path: '/emergency', icon: Shield, label: 'SOS' },
   { path: '/saved', icon: Bookmark, label: 'Saved' },
 ];
