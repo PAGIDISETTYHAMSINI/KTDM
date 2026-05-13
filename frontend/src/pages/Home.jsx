@@ -71,15 +71,12 @@ const Home = () => {
             of Kothagudem
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.25rem', maxWidth: 360 }}>
-            Waterfalls, temples, wildlife sanctuaries & tribal culture — all in one AI-powered guide.
+            Waterfalls, temples, wildlife sanctuaries & tribal culture — all in one local guide.
           </p>
 
           {/* CTA Buttons */}
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => navigate('/trip-planner')}
-              className="btn-primary" style={{ padding: '0.75rem 1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Sparkles size={16} /> Plan AI Trip
-            </motion.button>
+
             <motion.button whileTap={{ scale: 0.95 }} onClick={() => navigate('/explore')}
               className="btn-glass" style={{ padding: '0.75rem 1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <MapPin size={16} /> Mana Uru
@@ -199,42 +196,7 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* ── Trip Templates ─────────────────────────── */}
-      <section style={{ padding: '0.5rem 1.25rem 1rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div>
-            <h2 style={{ fontWeight: 800, fontSize: '1.1rem' }}>🗺️ Ready-Made Trips</h2>
-            <p style={{ fontSize: '0.72rem', color: '#64748b' }}>Quick-start itineraries</p>
-          </div>
-          <button onClick={() => navigate('/trip-planner')} style={{ background: 'none', border: 'none', color: '#f97316', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            AI Plan <Sparkles size={13} />
-          </button>
-        </div>
-        <div style={{ display: 'flex', overflowX: 'auto', gap: '0.75rem', paddingBottom: '0.5rem', scrollbarWidth: 'none' }}>
-          {TRIP_TEMPLATES.map(t => (
-            <motion.div
-              key={t.id}
-              whileHover={{ y: -4 }}
-              onClick={() => navigate('/trip-planner')}
-              style={{
-                flexShrink: 0, width: 200,
-                background: '#12121a', border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '16px', padding: '1rem', cursor: 'pointer',
-              }}
-            >
-              <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{t.icon}</div>
-              <div style={{ fontWeight: 700, fontSize: '0.88rem', marginBottom: '0.3rem' }}>{t.name}</div>
-              <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: '0.5rem' }}>{t.duration} • {t.type}</div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.72rem', color: '#22c55e', fontWeight: 700 }}>{t.budget}</span>
-                <span style={{ fontSize: '0.68rem', background: 'rgba(249,115,22,0.1)', color: '#f97316', padding: '2px 8px', borderRadius: '20px', fontWeight: 600 }}>
-                  {t.difficulty}
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+
 
       {/* ── Mana Uru Section ─────────────────────── */}
       <section style={{ padding: '0.5rem 1.25rem 1.5rem' }}>

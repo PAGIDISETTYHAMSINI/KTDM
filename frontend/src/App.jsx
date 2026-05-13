@@ -9,7 +9,6 @@ import MapPage from './pages/MapPage';
 import FoodPage from './pages/FoodPage';
 import Emergency from './pages/Emergency';
 import SavedPage from './pages/SavedPage';
-import TripPlanner from './pages/TripPlanner';
 import NewsPage from './pages/NewsPage';
 import PlaceDetail from './pages/PlaceDetail';
 
@@ -24,7 +23,7 @@ export default function App() {
         <Route path="/food" element={<FoodPage />} />
         <Route path="/emergency" element={<Emergency />} />
         <Route path="/saved" element={<SavedPage />} />
-        <Route path="/trip-planner" element={<TripPlanner />} />
+
         <Route path="/news" element={<NewsPage />} />
         <Route path="/place/:id" element={<PlaceDetail />} />
       </Routes>
