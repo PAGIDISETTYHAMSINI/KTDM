@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, ArrowRight, Sparkles, TrendingUp, Star } from 'lucide-react';
+import { MapPin, ArrowRight, Sparkles, TrendingUp, Star, BadgeCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PlaceCard from '../components/places/PlaceCard';
 import { TOURIST_PLACES, CATEGORIES, WEATHER_INFO, TRIP_TEMPLATES } from '../data/kothagudemData';
@@ -95,36 +95,52 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* ── Latest News Section ────────────────────────── */}
-      <section style={{ padding: '1rem 1.25rem 0.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+      {/* ── Dashboard: Hyperlocal News ────────────────── */}
+      <section style={{ padding: '1.25rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
-            <h2 style={{ fontWeight: 800, fontSize: '1.1rem' }}>🗞️ Latest News</h2>
-            <p style={{ fontSize: '0.72rem', color: '#64748b' }}>Verified updates from Kothagudem</p>
+            <h2 style={{ fontWeight: 900, fontSize: '1.2rem', letterSpacing: '-0.5px' }}>🗞️ Local <span className="gradient-text">News</span></h2>
+            <p style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>TRENDING IN KOTHAGUDEM</p>
           </div>
-          <button onClick={() => navigate('/news')} style={{ background: 'none', border: 'none', color: '#f97316', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            Read all <ArrowRight size={14} />
-          </button>
+          <motion.button 
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/news')}
+            className="btn-glass" style={{ padding: '6px 14px', borderRadius: '12px', fontSize: '0.78rem', color: '#f97316', fontWeight: 700 }}
+          >
+            All News
+          </motion.button>
         </div>
-        <div style={{ display: 'flex', overflowX: 'auto', gap: '0.75rem', paddingBottom: '0.5rem', scrollbarWidth: 'none' }}>
-          {KOTHAGUDEM_NEWS.slice(0, 3).map(news => (
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {KOTHAGUDEM_NEWS.slice(0, 3).map((news, i) => (
             <motion.div
               key={news.id}
-              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
               onClick={() => navigate('/news')}
               style={{
-                flexShrink: 0, width: 260,
-                background: '#12121a', border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '20px', overflow: 'hidden',
+                display: 'flex', gap: '1rem', background: '#12121a', 
+                border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', 
+                padding: '0.75rem', cursor: 'pointer'
               }}
             >
-              <img src={news.image} style={{ width: '100%', height: 120, objectFit: 'cover' }} alt="" />
-              <div style={{ padding: '0.75rem' }}>
-                <div style={{ fontSize: '0.65rem', color: '#f97316', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.2rem' }}>{news.category}</div>
-                <div style={{ fontWeight: 700, fontSize: '0.85rem', lineHeight: 1.3, height: '2.6rem', overflow: 'hidden' }}>{news.title}</div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem', fontSize: '0.65rem', color: '#64748b' }}>
+              <div style={{ position: 'relative', width: 90, height: 90, flexShrink: 0 }}>
+                <img src={news.image} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }} alt="" />
+                {news.trending && (
+                  <div style={{ position: 'absolute', top: -5, left: -5, background: '#ef4444', color: 'white', fontSize: '0.6rem', fontWeight: 900, padding: '2px 6px', borderRadius: '6px', boxShadow: '0 4px 12px rgba(239,68,68,0.3)' }}>🔥</div>
+                )}
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ fontSize: '0.65rem', color: '#f97316', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.25rem' }}>{news.category}</div>
+                <h3 style={{ fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.3, marginBottom: '0.4rem', color: 'white' }} className="line-clamp-2">{news.title}</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.68rem', color: '#64748b' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <BadgeCheck size={12} className="text-blue-500" fill="currentColor" />
+                    <span style={{ fontWeight: 700 }}>Verified</span>
+                  </div>
+                  <span>•</span>
                   <span>{news.time}</span>
-                  <span style={{ color: '#0ea5e9' }}>{news.views} views</span>
                 </div>
               </div>
             </motion.div>

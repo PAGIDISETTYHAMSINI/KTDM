@@ -175,47 +175,39 @@ const ManaUru = () => {
 
       {!searchQuery && (
         <div className="space-y-2">
-          {/* Section 1: AI Recommendation */}
+          {/* 1. Restaurants & Food Spots */}
           <SectionRow 
-            title={aiRecs.title}
-            emoji="🤖"
-            places={aiRecs.places}
-            color="#a855f7"
-          />
-
-          {/* Section 2: Trending in Kothagudem */}
-          <SectionRow 
-            title="Trending in Kothagudem"
-            emoji="🔥"
-            places={[...KOTHAGUDEM_PLACES.tourist, ...KOTHAGUDEM_PLACES.restaurants].sort((a,b) => b.rating - a.rating).slice(0, 6)}
-            color="#ef4444"
-          />
-
-          {/* Section 3: Best Food Spots */}
-          <SectionRow 
-            title="Best Food Spots"
+            title="Restaurants & Food Spots"
             emoji="🍛"
             places={KOTHAGUDEM_PLACES.restaurants}
             color="#f97316"
           />
 
-          {/* Section 4: Emergency & Hospitals */}
+          {/* 2. Hospitals & Clinics */}
           <SectionRow 
-            title="Emergency & Hospitals"
+            title="Hospitals & Clinics"
             emoji="🏥"
             places={KOTHAGUDEM_PLACES.hospitals}
             color="#dc2626"
           />
 
-          {/* Section 5: Hidden Gems */}
+          {/* 3. Hotels & Lodging */}
           <SectionRow 
-            title="Hidden Gems"
-            emoji="💎"
-            places={HIDDEN_GEMS}
-            color="#10b981"
+            title="Hotels & Lodging"
+            emoji="🏨"
+            places={KOTHAGUDEM_PLACES.hotels}
+            color="#6366f1"
           />
 
-          {/* Section 6: Shopping & Supermarkets */}
+          {/* 4. Temples & Cultural Places */}
+          <SectionRow 
+            title="Temples & Cultural Places"
+            emoji="🕌"
+            places={KOTHAGUDEM_PLACES.temples}
+            color="#a855f7"
+          />
+
+          {/* 5. Shopping & Markets */}
           <SectionRow 
             title="Shopping & Markets"
             emoji="🛍️"
@@ -223,15 +215,7 @@ const ManaUru = () => {
             color="#3b82f6"
           />
 
-          {/* Section 7: Hotels & PGs */}
-          <SectionRow 
-            title="Hotels & PGs"
-            emoji="🏨"
-            places={KOTHAGUDEM_PLACES.hotels}
-            color="#6366f1"
-          />
-
-          {/* Section 8: Tourist Attractions */}
+          {/* 6. Tourist Attractions */}
           <SectionRow 
             title="Tourist Attractions"
             emoji="🏛️"
@@ -239,39 +223,31 @@ const ManaUru = () => {
             color="#ec4899"
           />
 
-          {/* Section 9: Colleges & Schools */}
+          {/* Additional Smart Sections */}
+          <div className="pt-4 px-5 pb-2">
+             <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Smart Discovery</h3>
+          </div>
+
           <SectionRow 
-            title="Colleges & Schools"
-            emoji="🎓"
-            places={KOTHAGUDEM_PLACES.education}
-            color="#f59e0b"
+            title="Trending in Kothagudem"
+            emoji="🔥"
+            places={[...KOTHAGUDEM_PLACES.tourist, ...KOTHAGUDEM_PLACES.restaurants].sort((a,b) => b.rating - a.rating).slice(0, 6)}
+            color="#ef4444"
           />
 
-          {/* Section 10: Entertainment Zones */}
           <SectionRow 
-            title="Entertainment Zones"
-            emoji="🍿"
-            places={KOTHAGUDEM_PLACES.entertainment}
-            color="#8b5cf6"
+            title="Hidden Gems"
+            emoji="💎"
+            places={HIDDEN_GEMS}
+            color="#10b981"
           />
 
-          {/* Section 11: Transport & Services */}
           <SectionRow 
-            title="Transport & Services"
-            emoji="⛽"
-            places={KOTHAGUDEM_PLACES.transport}
-            color="#64748b"
+            title={aiRecs.title}
+            emoji="🤖"
+            places={aiRecs.places}
+            color="#a855f7"
           />
-
-          {/* Section 12: Rainy Day Recommendations */}
-          {CURRENT_WEATHER.condition.toLowerCase().includes('cloud') || CURRENT_WEATHER.condition.toLowerCase().includes('rain') ? (
-            <SectionRow 
-              title="Rainy Day Picks"
-              emoji="☔"
-              places={allPlaces.filter(p => AI_SUGGESTIONS.rainy.places.some(c => p.name.includes(c) || p.tags?.some(t => c.toLowerCase().includes(t.toLowerCase())))).slice(0, 5)}
-              color="#0ea5e9"
-            />
-          ) : null}
         </div>
       )}
 

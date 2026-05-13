@@ -1,14 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, Map, Compass, Utensils, Shield, Bookmark, Radio } from 'lucide-react';
+import { Home, Map, Compass, Utensils, Shield, Bookmark, User } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/', icon: Home, label: 'Home' },
-  { path: '/news', icon: Radio, label: 'News' },
   { path: '/explore', icon: Compass, label: 'Mana Uru' },
-  { path: '/emergency', icon: Shield, label: 'SOS' },
   { path: '/saved', icon: Bookmark, label: 'Saved' },
+  { path: '/profile', icon: User, label: 'Profile' },
 ];
 
 const BottomNav = () => {
@@ -26,7 +25,6 @@ const BottomNav = () => {
       }}>
         {NAV_ITEMS.map(({ path, icon: Icon, label }) => {
           const isActive = location.pathname === path;
-          const isSOS = path === '/emergency';
           return (
             <NavLink
               key={path}
@@ -44,42 +42,22 @@ const BottomNav = () => {
                   position: 'relative',
                 }}
               >
-                {isSOS ? (
-                  <div style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: '50%',
-                    background: isActive
-                      ? 'linear-gradient(135deg,#ef4444,#dc2626)'
-                      : 'linear-gradient(135deg,#ef4444aa,#dc262688)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 0 16px rgba(239,68,68,0.5)',
-                    marginTop: -16,
-                    border: '2px solid rgba(239,68,68,0.5)',
-                  }}>
-                    <Icon size={20} color="white" />
-                  </div>
-                ) : (
-                  <div style={{
-                    padding: '6px',
-                    borderRadius: '12px',
-                    background: isActive ? 'rgba(249,115,22,0.2)' : 'transparent',
-                    transition: 'all 0.2s',
-                  }}>
-                    <Icon
-                      size={22}
-                      color={isActive ? '#f97316' : '#64748b'}
-                      strokeWidth={isActive ? 2.5 : 1.8}
-                    />
-                  </div>
-                )}
+                <div style={{
+                  padding: '6px',
+                  borderRadius: '12px',
+                  background: isActive ? 'rgba(249,115,22,0.2)' : 'transparent',
+                  transition: 'all 0.2s',
+                }}>
+                  <Icon
+                    size={22}
+                    color={isActive ? '#f97316' : '#64748b'}
+                    strokeWidth={isActive ? 2.5 : 1.8}
+                  />
+                </div>
                 <span style={{
                   fontSize: '0.65rem',
                   fontWeight: isActive ? 700 : 500,
-                  color: isSOS ? '#ef4444' : isActive ? '#f97316' : '#64748b',
-                  marginTop: isSOS ? 2 : 0,
+                  color: isActive ? '#f97316' : '#64748b',
                 }}>
                   {label}
                 </span>
