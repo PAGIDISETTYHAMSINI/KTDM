@@ -68,7 +68,7 @@ const ManaUruPage = () => {
               gap: '0.5rem',
               background: activeCategory === cat.name ? 'var(--primary)' : 'var(--surface)',
               color: activeCategory === cat.name ? 'white' : 'var(--text-primary)',
-              boxShadow: var(--shadow-sm),
+              boxShadow: 'var(--shadow-sm)',
               transition: 'all 0.2s',
               border: activeCategory === cat.name ? 'none' : '1px solid var(--border)'
             }}
