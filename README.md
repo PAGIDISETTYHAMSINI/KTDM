@@ -30,15 +30,16 @@ Manam is a modern, full-stack hyperlocal platform designed to digitally empower 
    cd manam
    ```
 
-2. **Backend Setup**
+2. **Backend Setup (Java/Spring Boot)**
    ```bash
    cd backend
-   npm install
-   # Create a .env file with:
-   # PORT=5000
-   # MONGO_URI=mongodb://localhost:27017/manam
-   # JWT_SECRET=your_secret_key
-   npm run start
+   mvn clean install
+   # Configure application.properties with:
+   # spring.datasource.url=jdbc:postgresql://<neon-host>/manam
+   # spring.datasource.username=<user>
+   # spring.datasource.password=<password>
+   # jwt.secret=<secret>
+   mvn spring-boot:run
    ```
 
 3. **Frontend Setup**

@@ -1,13 +1,15 @@
 services:
   - type: web
     name: manam-backend
-    env: node
-    buildCommand: cd backend && npm install && npx prisma generate
-    startCommand: cd backend && npm start
+    env: java
+    buildCommand: cd backend && mvn clean install -DskipTests
+    startCommand: cd backend && java -jar target/*.jar
     envVars:
-      - key: NODE_VERSION
-        value: 18.0.0
       - key: DATABASE_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
         sync: false
       - key: JWT_SECRET
         generateValue: true
