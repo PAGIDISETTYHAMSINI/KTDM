@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
+  role         String   @default("Reader") // Admin, Contributor, Reader
+  avatar       String?
+  isVerified   Boolean  @default(false)
+  news         News[]
+  reviews      Review[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model News {
+  id              Int      @id @default(autoincrement())
+  title           String
+  content         String
+  category        String   @default("General")
+  area            String?
+  lat             Float?
+  lng             Float?
+  status          String   @default("Pending") // Pending, Approved, Rejected
+  views           Int      @default(0)
+  isFakeNews      Boolean  @default(false)
+  confidenceScore Float    @default(100)
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Place {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  category    String
+  phone       String?
+  email       String?
+  website     String?
+  address     String?
+  lat         Float?
+  lng         Float?
+  rating      Float    @default(0)
+  images      String[]
+  reviews     Review[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  place     Place    @relation(fields: [placeId], references: [id])
+  placeId   Int
+  createdAt DateTime @default(now())
+}
