@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import BottomNav from './components/layout/BottomNav';
-import ChatAssistant from './components/ai/ChatAssistant';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import MapPage from './pages/MapPage';
@@ -32,7 +31,6 @@ export default function App() {
         <Route path="/place/:id" element={<PlaceDetail />} />
       </Routes>
       <BottomNav />
-      <ChatAssistant />
     </BrowserRouter>
   );
 }
