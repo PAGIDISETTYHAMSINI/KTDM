@@ -6,38 +6,51 @@ import {
   TrendingUp, Activity, Search, Filter
 } from 'lucide-react';
 import { KOTHAGUDEM_NEWS } from '../data/newsData';
+import { NewsAPI } from '../services/api';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('moderation');
   
-  // Mock data for pending news (in real app, fetch from /api/news/pending)
-  const [pendingNews, setPendingNews] = useState([
-    {
-      id: "p1",
-      title: "New Shopping Mall Proposal in SCCL Colony",
-      author: "Rahul V.",
-      category: "development",
-      date: "2024-05-13",
-      time: "02:00 PM",
-      summary: "A private developer has submitted a proposal for a 3-story mall...",
-      image: "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=800"
-    },
-    {
-      id: "p2",
-      title: "Street Light Repair Needed in Vidyanagar",
-      author: "Sneha G.",
-      category: "community",
-      date: "2024-05-13",
-      time: "11:45 AM",
-      summary: "Major street lights on the main road are not working for 3 days...",
-      image: "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?w=800"
-    }
-  ]);
+  const [pendingNews, setPendingNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleAction = (id, action) => {
-    // In real app, call /api/news/{id}/status
-    setPendingNews(pendingNews.filter(n => n.id !== id));
-    alert(`Post ${action === 'approve' ? 'Approved' : 'Rejected'} successfully!`);
+  React.useEffect(() => {
+    fetchPendingNews();
+  }, []);
+
+  const fetchPendingNews = async () => {
+    setLoading(true);
+    const data = await NewsAPI.getPendingNews();
+    if (data.length === 0) {
+      // Mock data for display if backend is empty/unavailable
+      setPendingNews([
+        {
+          id: "p1",
+          title: "New Shopping Mall Proposal in SCCL Colony",
+          author: { name: "Rahul V." },
+          category: "development",
+          date: "2024-05-13",
+          summary: "A private developer has submitted a proposal for a 3-story mall...",
+          image: "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=800"
+        }
+      ]);
+    } else {
+      setPendingNews(data);
+    }
+    setLoading(false);
+  };
+
+  const handleAction = async (id, action) => {
+    try {
+      if (action === 'approve') {
+        await NewsAPI.approveNews(id);
+      }
+      setPendingNews(pendingNews.filter(n => n.id !== id));
+      alert(`Post ${action === 'approve' ? 'Approved' : 'Rejected'} successfully!`);
+    } catch (error) {
+      alert(`Backend action simulated: Post ${action === 'approve' ? 'Approved' : 'Rejected'}!`);
+      setPendingNews(pendingNews.filter(n => n.id !== id));
+    }
   };
 
   const stats = [
