@@ -11,12 +11,22 @@ import { BookOpen, Heart } from 'lucide-react';
 
 const NewsPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeArea, setActiveArea] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Extract unique areas
+  const uniqueAreas = useMemo(() => {
+    const areas = new Set(KOTHAGUDEM_NEWS.map(n => n.location));
+    return ['all', ...Array.from(areas)];
+  }, []);
 
   const filteredNews = useMemo(() => {
     let result = KOTHAGUDEM_NEWS;
     if (activeCategory !== 'all') {
       result = result.filter(n => n.category === activeCategory);
+    }
+    if (activeArea !== 'all') {
+      result = result.filter(n => n.location === activeArea);
     }
     if (searchQuery) {
       result = result.filter(n => 
@@ -25,7 +35,7 @@ const NewsPage = () => {
       );
     }
     return result;
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, activeArea, searchQuery]);
 
   const trendingNews = useMemo(() => KOTHAGUDEM_NEWS.filter(n => n.trending), []);
 
@@ -74,7 +84,7 @@ const NewsPage = () => {
         </div>
 
         {/* Categories Scroller */}
-        <div className="flex overflow-x-auto gap-2 pb-2 -mx-5 px-5 scrollbar-none">
+        <div className="flex overflow-x-auto gap-2 pb-2 -mx-5 px-5 scrollbar-none mb-3">
            {NEWS_CATEGORIES.map(cat => (
              <motion.button
                key={cat.id}
@@ -90,6 +100,24 @@ const NewsPage = () => {
                {cat.label}
              </motion.button>
            ))}
+        </div>
+
+        {/* Hyperlocal Area Filter */}
+        <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5">
+           <Filter size={14} className="text-slate-400 ml-2" />
+           <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest">News Near You:</span>
+           <select 
+             className="bg-transparent text-xs font-bold text-white outline-none flex-1 appearance-none cursor-pointer"
+             value={activeArea}
+             onChange={(e) => setActiveArea(e.target.value)}
+           >
+              <option value="all" className="bg-[#12121a]">All Areas</option>
+              {uniqueAreas.filter(a => a !== 'all').map(area => (
+                 <option key={area} value={area} className="bg-[#12121a]">
+                    📍 {area}
+                 </option>
+              ))}
+           </select>
         </div>
       </div>
 
