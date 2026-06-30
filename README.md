@@ -2,6 +2,9 @@
 
 ![Manam Banner](https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80)
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen?style=for-the-badge&logo=render)](https://ktdmmanam-frontend.onrender.com)
+
+
 **KTDM Manam** is a world-class, AI-powered hyperlocal tourism and city exploration ecosystem explicitly built for Kothagudem and the Bhadradri Kothagudem district (Telangana, India). It bridges the gap between verified local journalism, community-driven updates, and smart city exploration.
 
 ---
