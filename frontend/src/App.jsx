@@ -12,6 +12,8 @@ import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import ReporterDashboard from './pages/ReporterDashboard';
 import PlaceDetail from './pages/PlaceDetail';
+import ReportIssue from './pages/ReportIssue';
+import EventsPage from './pages/EventsPage';
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/reporter" element={<ReporterDashboard />} />
         <Route path="/place/:id" element={<PlaceDetail />} />
+        <Route path="/report-issue" element={<ReportIssue />} />
+        <Route path="/events" element={<EventsPage />} />
       </Routes>
       <BottomNav />
     </BrowserRouter>
