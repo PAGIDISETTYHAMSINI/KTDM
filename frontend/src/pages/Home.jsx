@@ -1,249 +1,232 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, ArrowRight, Sparkles, TrendingUp, Star, BadgeCheck } from 'lucide-react';
+import { 
+  MapPin, AlertTriangle, Zap, Calendar, CloudLightning, 
+  Wind, TrendingUp, Building2, Users, FileText, Speaker, 
+  ArrowRight, ShieldAlert, Navigation
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import PlaceCard from '../components/places/PlaceCard';
-import { TOURIST_PLACES, CATEGORIES, WEATHER_INFO, TRIP_TEMPLATES } from '../data/miryalagudaData';
-import { MIRYALAGUDA_NEWS } from '../data/newsData';
 import useStore from '../stores/useStore';
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+import { MIRYALAGUDA_NEWS, LOCAL_ALERTS } from '../data/newsData';
+import { TOURIST_PLACES, RESTAURANTS } from '../data/miryalagudaData';
+import NewsCard from '../components/news/NewsCard';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { setActiveTab, userLocation } = useStore();
+  const { setActiveTab } = useStore();
+  const [activeArea, setActiveArea] = useState('Vidyanagar');
+
   useEffect(() => setActiveTab('home'), []);
 
-  const featured = TOURIST_PLACES.filter(p => p.featured);
-  const weather = WEATHER_INFO.miryalaguda;
+  // MOCK DATA FOR NEW MVP SECTIONS
+  const AQI = { score: 42, status: 'Good', color: 'text-green-500' };
+  const WEATHER = { temp: '32°C', condition: 'Partly Cloudy' };
+  
+  const BREAKING_NEWS = MIRYALAGUDA_NEWS.find(n => n.category === 'emergency') || MIRYALAGUDA_NEWS[0];
+  const TRENDING_NEWS = MIRYALAGUDA_NEWS.filter(n => n.trending);
+  const LATEST_NEWS = MIRYALAGUDA_NEWS.slice(0, 4);
+  const NEWS_NEAR_YOU = MIRYALAGUDA_NEWS.filter(n => n.location.includes(activeArea) || true).slice(0, 3); // Fallback to all if empty
+  const MOST_VIEWED = [...MIRYALAGUDA_NEWS].sort((a, b) => parseInt(b.views) - parseInt(a.views)).slice(0, 3);
+  
+  const EVENTS = [
+    { id: 1, title: 'Miryalaguda Book Fair', date: 'Oct 15 - Oct 20', location: 'Municipal Grounds' },
+    { id: 2, title: 'Local Farmers Market', date: 'Every Sunday', location: 'Rythu Bazar' }
+  ];
+
+  const NOTICES = [
+    { id: 1, title: 'Property Tax Deadline Extended', dept: 'Municipality' },
+    { id: 2, title: 'New EV Charging Station Opens', dept: 'Transport' }
+  ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f' }}>
-
-      {/* ── Hero Section ─────────────────────────────── */}
-      <section style={{ position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', alignItems: 'flex-end' }}>
-        {/* Background */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200)',
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          filter: 'brightness(0.35)',
-        }} />
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to top, #0a0a0f 30%, rgba(10,10,15,0.6) 70%, transparent)',
-        }} />
-        {/* Animated orbs */}
-        <div style={{
-          position: 'absolute', top: '15%', right: '10%',
-          width: 200, height: 200, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(249,115,22,0.15), transparent 70%)',
-          animation: 'float 4s ease-in-out infinite',
-        }} />
-
-        {/* Hero Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{ position: 'relative', padding: '6rem 1.25rem 2rem', width: '100%' }}
-        >
-          {/* Location badge */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)',
-            borderRadius: '20px', padding: '4px 14px', marginBottom: '0.75rem', fontSize: '0.78rem',
-            color: '#f97316', fontWeight: 600,
-          }}>
-            <MapPin size={12} /> Bhadradri Miryalaguda, Telangana
+    <div className="min-h-screen bg-[#0a0a0f] text-white pb-24">
+      
+      {/* ── 1. WEATHER & AQI (Top Bar) ── */}
+      <div className="bg-[#12121a] border-b border-white/5 px-4 py-3 flex justify-between items-center sticky top-0 z-40">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <CloudLightning size={16} className="text-blue-400" />
+            <span className="text-xs font-bold">{WEATHER.temp}</span>
           </div>
-
-          <h1 style={{ fontSize: 'clamp(2rem,5vw,3rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '0.6rem' }}>
-            Discover the<br />
-            <span className="gradient-text">Hidden Wonders</span><br />
-            of Miryalaguda
-          </h1>
-          <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.25rem', maxWidth: 360 }}>
-            Waterfalls, temples, wildlife sanctuaries & tribal culture — all in one local guide.
-          </p>
-
-          {/* CTA Buttons */}
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => navigate('/explore')}
-              className="btn-glass" style={{ padding: '0.75rem 1.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <MapPin size={16} /> Mana Uru
-            </motion.button>
+          <div className="w-px h-4 bg-white/10" />
+          <div className="flex items-center gap-1.5">
+            <Wind size={16} className={AQI.color} />
+            <span className="text-xs font-bold">AQI: {AQI.score} ({AQI.status})</span>
           </div>
-
-          {/* Quick stats */}
-          <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
-            {[['24+', 'Tourist Places'], ['8', 'Waterfalls'], ['635km²', 'Forest Area']].map(([v, l]) => (
-              <div key={l}>
-                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#f97316' }}>{v}</div>
-                <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{l}</div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── Dashboard: Hyperlocal News ────────────────── */}
-      <section style={{ padding: '1.25rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <div>
-            <h2 style={{ fontWeight: 900, fontSize: '1.2rem', letterSpacing: '-0.5px' }}>🗞️ Local <span className="gradient-text">News</span></h2>
-            <p style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>TRENDING IN MIRYALAGUDA</p>
-          </div>
-          <motion.button 
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/news')}
-            className="btn-glass" style={{ padding: '6px 14px', borderRadius: '12px', fontSize: '0.78rem', color: '#f97316', fontWeight: 700 }}
-          >
-            All News
-          </motion.button>
         </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {MIRYALAGUDA_NEWS.slice(0, 3).map((news, i) => (
-            <motion.div
-              key={news.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => navigate('/news')}
-              style={{
-                display: 'flex', gap: '1rem', background: '#12121a', 
-                border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', 
-                padding: '0.75rem', cursor: 'pointer'
-              }}
-            >
-              <div style={{ position: 'relative', width: 90, height: 90, flexShrink: 0 }}>
-                <img src={news.image} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }} alt="" />
-                {news.trending && (
-                  <div style={{ position: 'absolute', top: -5, left: -5, background: '#ef4444', color: 'white', fontSize: '0.6rem', fontWeight: 900, padding: '2px 6px', borderRadius: '6px', boxShadow: '0 4px 12px rgba(239,68,68,0.3)' }}>🔥</div>
-                )}
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ fontSize: '0.65rem', color: '#f97316', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.25rem' }}>{news.category}</div>
-                <h3 style={{ fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.3, marginBottom: '0.4rem', color: 'white' }} className="line-clamp-2">{news.title}</h3>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.68rem', color: '#64748b' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <BadgeCheck size={12} className="text-blue-500" fill="currentColor" />
-                    <span style={{ fontWeight: 700 }}>Verified</span>
-                  </div>
-                  <span>•</span>
-                  <span>{news.time}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="text-[10px] font-black tracking-widest text-slate-500 uppercase flex items-center gap-1">
+          <MapPin size={10} /> Miryalaguda
         </div>
-      </section>
+      </div>
 
-      {/* ── Weather Strip ─────────────────────────────── */}
-      <div style={{ padding: '0.75rem 1.25rem' }}>
-        <div style={{ background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.15)', borderRadius: '14px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <div style={{ fontSize: '1.5rem' }}>☀️</div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>Miryalaguda — {weather.temperature}</div>
-              <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{weather.current_season} Season • {weather.humidity} humidity</div>
+      {/* ── 2. BREAKING NEWS & EMERGENCY ALERTS ── */}
+      <div className="px-4 py-4">
+        {/* Emergency Ticker */}
+        {LOCAL_ALERTS.length > 0 && (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 mb-4 flex items-center gap-3">
+            <ShieldAlert size={18} className="text-red-500 animate-pulse flex-shrink-0" />
+            <div className="text-xs font-bold text-red-200 line-clamp-1">
+              <span className="text-red-500 uppercase mr-2">ALERT:</span> 
+              {LOCAL_ALERTS[0].message}
             </div>
           </div>
-          <div style={{ fontSize: '0.72rem', color: '#0ea5e9', textAlign: 'right' }}>
-            Best months:<br />
-            <span style={{ fontWeight: 700 }}>Oct – Feb</span>
+        )}
+
+        {/* Breaking News Hero */}
+        <div className="relative rounded-2xl overflow-hidden h-64 mb-8 border border-white/10 shadow-2xl" onClick={() => navigate('/news')}>
+          <img src={BREAKING_NEWS.image} className="absolute inset-0 w-full h-full object-cover" alt="" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className="bg-red-600 text-white text-[10px] font-black px-2 py-1 rounded inline-block mb-2 uppercase tracking-wider animate-pulse">
+              Breaking News
+            </div>
+            <h2 className="text-xl font-black leading-tight mb-2">{BREAKING_NEWS.title}</h2>
+            <p className="text-xs text-slate-300 line-clamp-2">{BREAKING_NEWS.summary}</p>
           </div>
         </div>
       </div>
 
-      {/* ── Categories ─────────────────────────────── */}
-      <section style={{ padding: '1rem 1.25rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ fontWeight: 800, fontSize: '1.1rem' }}>Browse by Category</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.6rem' }}>
-          {CATEGORIES.slice(0, 10).map(cat => (
-            <motion.button
-              key={cat.id}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => navigate(`/explore?category=${cat.id}`)}
-              style={{
-                background: '#12121a', border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '14px', padding: '0.65rem 0.25rem',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.3rem',
-                cursor: 'pointer', transition: 'all 0.2s',
-              }}
-            >
-              <div style={{ fontSize: '1.3rem' }}>{cat.icon}</div>
-              <div style={{ fontSize: '0.58rem', color: '#94a3b8', fontWeight: 600, textAlign: 'center', lineHeight: 1.2 }}>
-                {cat.name.split(' ')[0]}
-              </div>
-            </motion.button>
-          ))}
-        </div>
-      </section>
+      <div className="container-fluid px-4">
+        <div className="row g-4">
+          
+          {/* ── 3 & 4. TRENDING & LATEST NEWS ── */}
+          <div className="col-12 col-md-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-black text-lg flex items-center gap-2"><TrendingUp size={20} className="text-orange-500" /> Trending News</h3>
+              <button onClick={() => navigate('/news')} className="text-xs text-orange-500 font-bold">See All</button>
+            </div>
+            <div className="row g-3 mb-6">
+              {TRENDING_NEWS.slice(0,2).map(news => (
+                <div key={news.id} className="col-6">
+                  <div className="glass rounded-xl overflow-hidden h-full border border-white/5">
+                    <img src={news.image} className="w-full h-24 object-cover" />
+                    <div className="p-3">
+                      <h4 className="text-xs font-bold line-clamp-2 leading-snug">{news.title}</h4>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-      {/* ── Featured Places ─────────────────────────── */}
-      <section style={{ padding: '0.5rem 1.25rem 1rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div>
-            <h2 style={{ fontWeight: 800, fontSize: '1.1rem' }}>✨ Must-Visit Places</h2>
-            <p style={{ fontSize: '0.72rem', color: '#64748b' }}>Top-rated in Bhadradri district</p>
+            <h3 className="font-black text-lg mb-4 flex items-center gap-2"><Zap size={20} className="text-yellow-500" /> Latest News</h3>
+            <div className="flex flex-col gap-3">
+              {LATEST_NEWS.map(news => (
+                <NewsCard key={news.id} news={news} horizontal />
+              ))}
+            </div>
           </div>
-          <button onClick={() => navigate('/explore')} style={{ background: 'none', border: 'none', color: '#f97316', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            View all <ArrowRight size={14} />
-          </button>
+
+          {/* ── 5. NEWS NEAR YOU & MOST VIEWED (Sidebar) ── */}
+          <div className="col-12 col-md-4">
+            <div className="glass p-4 rounded-2xl border border-white/5 mb-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-black text-sm flex items-center gap-2"><Navigation size={16} className="text-blue-500" /> News Near You</h3>
+                <select 
+                  className="bg-[#0a0a0f] text-[10px] font-bold px-2 py-1 rounded border border-white/10 outline-none"
+                  value={activeArea} onChange={(e) => setActiveArea(e.target.value)}
+                >
+                  <option value="Vidyanagar">Vidyanagar</option>
+                  <option value="Paloncha">Paloncha</option>
+                  <option value="Main Road">Main Road</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-3">
+                {NEWS_NEAR_YOU.map(news => (
+                  <div key={news.id} className="border-b border-white/5 pb-2 last:border-0 last:pb-0">
+                    <h4 className="text-xs font-bold leading-snug mb-1">{news.title}</h4>
+                    <span className="text-[10px] text-slate-500">{news.time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass p-4 rounded-2xl border border-white/5">
+              <h3 className="font-black text-sm mb-4">🔥 Most Viewed Articles</h3>
+              <div className="flex flex-col gap-3">
+                {MOST_VIEWED.map((news, idx) => (
+                  <div key={news.id} className="flex gap-3 items-start">
+                    <div className="text-xl font-black text-slate-700">0{idx+1}</div>
+                    <div>
+                      <h4 className="text-xs font-bold leading-snug mb-1">{news.title}</h4>
+                      <span className="text-[10px] text-orange-500 font-bold">{news.views} views</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
         </div>
-        <motion.div variants={stagger} initial="hidden" animate="visible" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {featured.slice(0, 3).map(place => (
-            <motion.div key={place.id} variants={fadeUp}>
-              <PlaceCard place={place} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+      </div>
 
-
-
-      {/* ── Mana Uru Section ─────────────────────── */}
-      <section style={{ padding: '0.5rem 1.25rem 1.5rem' }}>
-        <h2 style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '1rem' }}>🏙️ Mana Uru Miryalaguda</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-          {[
-            { emoji: '🌊', name: 'Bogatha Waterfall', tag: 'Niagara of Telangana', color: '#0ea5e9', id: 'p2' },
-            { emoji: '🕌', name: 'Bhadrachalam Temple', tag: 'Sacred Vaishnava Shrine', color: '#a855f7', id: 'p1' },
-            { emoji: '🐯', name: 'Kinnerasani Sanctuary', tag: '635 km² Forest Reserve', color: '#22c55e', id: 'p3' },
-            { emoji: '🏕️', name: 'Tribal Culture', tag: 'Authentic Forest Life', color: '#f97316', id: 'p7' },
-          ].map(item => (
-            <motion.div
-              key={item.id}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate(`/place/${item.id}`)}
-              style={{
-                background: `rgba(${item.color === '#0ea5e9' ? '14,165,233' : item.color === '#a855f7' ? '168,85,247' : item.color === '#22c55e' ? '34,197,94' : '249,115,22'},0.08)`,
-                border: `1px solid ${item.color}30`,
-                borderRadius: '16px', padding: '1rem', cursor: 'pointer',
-              }}
-            >
-              <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>{item.emoji}</div>
-              <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.2rem' }}>{item.name}</div>
-              <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{item.tag}</div>
-            </motion.div>
+      {/* ── 6. MANA URU HIGHLIGHTS & BUSINESSES ── */}
+      <div className="px-4 mt-10">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-black text-lg flex items-center gap-2"><Building2 size={20} className="text-purple-500" /> Mana Uru Highlights</h3>
+          <button onClick={() => navigate('/explore')} className="text-xs text-purple-500 font-bold">Explore Directory</button>
+        </div>
+        <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-none">
+          {[...TOURIST_PLACES.slice(0,2), ...RESTAURANTS.slice(0,2)].map(place => (
+            <div key={place.id} className="w-48 flex-shrink-0 glass rounded-xl overflow-hidden border border-white/5">
+              <img src={place.images[0]} className="w-full h-28 object-cover" />
+              <div className="p-3">
+                <h4 className="text-xs font-bold truncate">{place.name}</h4>
+                <p className="text-[10px] text-slate-400 truncate">{place.category}</p>
+              </div>
+            </div>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* Bottom padding for nav */}
-      <div style={{ height: '5rem' }} />
+      {/* ── 7. EVENTS, COMMUNITY, NOTICES ── */}
+      <div className="container-fluid px-4 mt-6">
+        <div className="row g-3">
+          {/* Events */}
+          <div className="col-12 col-md-4">
+            <div className="glass p-4 rounded-2xl border border-white/5 h-full">
+              <h3 className="font-black text-sm mb-4 flex items-center gap-2"><Calendar size={16} className="text-pink-500" /> Upcoming Events</h3>
+              <div className="flex flex-col gap-3">
+                {EVENTS.map(ev => (
+                  <div key={ev.id} className="bg-white/5 p-3 rounded-lg border border-white/5">
+                    <h4 className="text-xs font-bold text-pink-300">{ev.title}</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">{ev.date} • {ev.location}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Community Updates */}
+          <div className="col-12 col-md-4">
+            <div className="glass p-4 rounded-2xl border border-white/5 h-full">
+              <h3 className="font-black text-sm mb-4 flex items-center gap-2"><Users size={16} className="text-green-500" /> Community Updates</h3>
+              <div className="bg-green-500/10 p-3 rounded-lg border border-green-500/20 text-xs text-green-100">
+                <span className="font-bold text-green-400 block mb-1">Blood Donation Camp</span>
+                Tomorrow at Govt Hospital. 50+ donors registered. Join us!
+              </div>
+            </div>
+          </div>
+
+          {/* Notices */}
+          <div className="col-12 col-md-4">
+            <div className="glass p-4 rounded-2xl border border-white/5 h-full">
+              <h3 className="font-black text-sm mb-4 flex items-center gap-2"><Speaker size={16} className="text-blue-500" /> Govt Notices</h3>
+              <div className="flex flex-col gap-2">
+                {NOTICES.map(notice => (
+                  <div key={notice.id} className="flex gap-2 items-start">
+                    <FileText size={14} className="text-slate-500 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-[11px] font-bold">{notice.title}</h4>
+                      <p className="text-[9px] text-slate-400">{notice.dept}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
