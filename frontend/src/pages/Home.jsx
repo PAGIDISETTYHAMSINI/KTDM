@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { MapPin, ArrowRight, Sparkles, TrendingUp, Star, BadgeCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PlaceCard from '../components/places/PlaceCard';
-import { TOURIST_PLACES, CATEGORIES, WEATHER_INFO, TRIP_TEMPLATES } from '../data/kothagudemData';
-import { KOTHAGUDEM_NEWS } from '../data/newsData';
+import { TOURIST_PLACES, CATEGORIES, WEATHER_INFO, TRIP_TEMPLATES } from '../data/miryalagudaData';
+import { MIRYALAGUDA_NEWS } from '../data/newsData';
 import useStore from '../stores/useStore';
 
 const stagger = {
@@ -21,7 +21,7 @@ const Home = () => {
   useEffect(() => setActiveTab('home'), []);
 
   const featured = TOURIST_PLACES.filter(p => p.featured);
-  const weather = WEATHER_INFO.kothagudem;
+  const weather = WEATHER_INFO.miryalaguda;
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a0a0f' }}>
@@ -62,13 +62,13 @@ const Home = () => {
             borderRadius: '20px', padding: '4px 14px', marginBottom: '0.75rem', fontSize: '0.78rem',
             color: '#f97316', fontWeight: 600,
           }}>
-            <MapPin size={12} /> Bhadradri Kothagudem, Telangana
+            <MapPin size={12} /> Bhadradri Miryalaguda, Telangana
           </div>
 
           <h1 style={{ fontSize: 'clamp(2rem,5vw,3rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '0.6rem' }}>
             Discover the<br />
             <span className="gradient-text">Hidden Wonders</span><br />
-            of Kothagudem
+            of Miryalaguda
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.25rem', maxWidth: 360 }}>
             Waterfalls, temples, wildlife sanctuaries & tribal culture — all in one local guide.
@@ -100,7 +100,7 @@ const Home = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
             <h2 style={{ fontWeight: 900, fontSize: '1.2rem', letterSpacing: '-0.5px' }}>🗞️ Local <span className="gradient-text">News</span></h2>
-            <p style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>TRENDING IN KOTHAGUDEM</p>
+            <p style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>TRENDING IN MIRYALAGUDA</p>
           </div>
           <motion.button 
             whileTap={{ scale: 0.95 }}
@@ -112,7 +112,7 @@ const Home = () => {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {KOTHAGUDEM_NEWS.slice(0, 3).map((news, i) => (
+          {MIRYALAGUDA_NEWS.slice(0, 3).map((news, i) => (
             <motion.div
               key={news.id}
               initial={{ opacity: 0, x: -20 }}
@@ -154,7 +154,7 @@ const Home = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <div style={{ fontSize: '1.5rem' }}>☀️</div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>Kothagudem — {weather.temperature}</div>
+              <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>Miryalaguda — {weather.temperature}</div>
               <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{weather.current_season} Season • {weather.humidity} humidity</div>
             </div>
           </div>
@@ -216,7 +216,7 @@ const Home = () => {
 
       {/* ── Mana Uru Section ─────────────────────── */}
       <section style={{ padding: '0.5rem 1.25rem 1.5rem' }}>
-        <h2 style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '1rem' }}>🏙️ Mana Uru Kothagudem</h2>
+        <h2 style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '1rem' }}>🏙️ Mana Uru Miryalaguda</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
           {[
             { emoji: '🌊', name: 'Bogatha Waterfall', tag: 'Niagara of Telangana', color: '#0ea5e9', id: 'p2' },

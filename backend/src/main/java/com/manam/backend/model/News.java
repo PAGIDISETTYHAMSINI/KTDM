@@ -24,7 +24,9 @@ public class News {
 
     private String category;
 
-    private String area;
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Area area;
 
     private Double lat;
     private Double lng;

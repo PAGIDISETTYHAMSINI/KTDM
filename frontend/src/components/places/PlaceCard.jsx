@@ -93,7 +93,7 @@ const PlaceCard = ({ place, compact = false }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#64748b' }}>
             <MapPin size={12} />
-            <span>{place.distance_from_kothagudem ? `${place.distance_from_kothagudem} km` : 'Kothagudem'}</span>
+            <span>{place.distance_from_miryalaguda ? `${place.distance_from_miryalaguda} km` : 'Miryalaguda'}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.72rem', color: '#94a3b8' }}>
             <Clock size={11} />

@@ -5,7 +5,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
 import { Layers, Navigation, MapPin, RefreshCw } from 'lucide-react';
-import { TOURIST_PLACES, RESTAURANTS, HOSPITALS, CATEGORIES } from '../data/kothagudemData';
+import { TOURIST_PLACES, RESTAURANTS, HOSPITALS, CATEGORIES } from '../data/miryalagudaData';
 import useStore from '../stores/useStore';
 
 // Fix default marker icons for react-leaflet

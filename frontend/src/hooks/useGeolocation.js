@@ -20,8 +20,8 @@ export function useGeolocation() {
         setLoading(false);
       },
       (err) => {
-        setError('Could not get location. Using Kothagudem center.');
-        // Default to Kothagudem
+        setError('Could not get location. Using Miryalaguda center.');
+        // Default to Miryalaguda
         setUserLocation({ lat: 17.5558, lng: 80.6198 });
         setLoading(false);
       },

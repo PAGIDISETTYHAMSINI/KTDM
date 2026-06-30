@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MapPin, Star, Clock, Navigation, Flame } from 'lucide-react';
-import { RESTAURANTS } from '../data/kothagudemData';
+import { RESTAURANTS } from '../data/miryalagudaData';
 
 const FOOD_CATS = ['All', 'Andhra Meals', 'Biryani', 'Tribal Food', 'Budget', 'Family', 'Street Food'];
 
@@ -22,7 +22,7 @@ const FoodPage = () => {
           <span style={{ fontSize: '1.6rem' }}>🍛</span>
           <h1 style={{ fontWeight: 900, fontSize: '1.5rem' }}>Food Discovery</h1>
         </div>
-        <p style={{ color: '#64748b', fontSize: '0.8rem' }}>Authentic Kothagudem cuisine & hidden food gems</p>
+        <p style={{ color: '#64748b', fontSize: '0.8rem' }}>Authentic Miryalaguda cuisine & hidden food gems</p>
       </div>
 
       {/* Featured Banner */}

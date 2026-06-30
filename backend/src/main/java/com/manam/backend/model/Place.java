@@ -31,6 +31,10 @@ public class Place {
     private String website;
     private String address;
 
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Area area;
+
     private Double lat;
     private Double lng;
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MapPin, Navigation, ShieldAlert, Clock, Activity } from 'lucide-react';
-import { EMERGENCY_CONTACTS, HOSPITALS } from '../data/kothagudemData';
+import { EMERGENCY_CONTACTS, HOSPITALS } from '../data/miryalagudaData';
 
 const Emergency = () => {
   const [sosActive, setSosActive] = useState(false);
@@ -15,7 +15,7 @@ const Emergency = () => {
           <ShieldAlert size={24} color="#ef4444" />
           <h1 style={{ fontWeight: 900, fontSize: '1.5rem', color: '#ef4444' }}>Emergency SOS</h1>
         </div>
-        <p style={{ color: '#64748b', fontSize: '0.8rem' }}>Quick access to emergency services in Kothagudem</p>
+        <p style={{ color: '#64748b', fontSize: '0.8rem' }}>Quick access to emergency services in Miryalaguda</p>
       </div>
 
       {/* BIG SOS Button */}
@@ -120,7 +120,7 @@ const Emergency = () => {
             "Always inform local forest department before trekking",
             "Carry offline maps and a fully charged phone",
             "Avoid forest areas after sunset",
-            "Nearest medical facility: GGH Kothagudem (108)",
+            "Nearest medical facility: GGH Miryalaguda (108)",
             "No mobile signal in deep forest areas — carry satellite communicator if possible",
           ].map((tip, i) => (
             <div key={i} style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '0.3rem' }}>• {tip}</div>

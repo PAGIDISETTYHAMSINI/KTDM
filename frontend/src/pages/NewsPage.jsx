@@ -5,7 +5,7 @@ import {
   ChevronRight, Sparkles, AlertTriangle,
   Zap, Info, TrendingUp
 } from 'lucide-react';
-import { KOTHAGUDEM_NEWS, NEWS_CATEGORIES, LOCAL_ALERTS, KOTHAGUDEM_ARTICLES } from '../data/newsData';
+import { MIRYALAGUDA_NEWS, NEWS_CATEGORIES, LOCAL_ALERTS, MIRYALAGUDA_ARTICLES } from '../data/newsData';
 import NewsCard from '../components/news/NewsCard';
 import { BookOpen, Heart } from 'lucide-react';
 
@@ -16,12 +16,12 @@ const NewsPage = () => {
 
   // Extract unique areas
   const uniqueAreas = useMemo(() => {
-    const areas = new Set(KOTHAGUDEM_NEWS.map(n => n.location));
+    const areas = new Set(MIRYALAGUDA_NEWS.map(n => n.location));
     return ['all', ...Array.from(areas)];
   }, []);
 
   const filteredNews = useMemo(() => {
-    let result = KOTHAGUDEM_NEWS;
+    let result = MIRYALAGUDA_NEWS;
     if (activeCategory !== 'all') {
       result = result.filter(n => n.category === activeCategory);
     }
@@ -37,7 +37,7 @@ const NewsPage = () => {
     return result;
   }, [activeCategory, activeArea, searchQuery]);
 
-  const trendingNews = useMemo(() => KOTHAGUDEM_NEWS.filter(n => n.trending), []);
+  const trendingNews = useMemo(() => MIRYALAGUDA_NEWS.filter(n => n.trending), []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-[4.5rem] pb-[5.5rem] text-white">
@@ -49,7 +49,7 @@ const NewsPage = () => {
               <h1 className="text-2xl font-black">
                 Hyperlocal <span className="gradient-text">News</span>
               </h1>
-              <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase mt-0.5">Kothagudem & Bhadradri District</p>
+              <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase mt-0.5">Miryalaguda & Bhadradri District</p>
            </div>
            <div className="flex gap-2">
               <motion.button whileTap={{ scale: 0.9 }} className="p-2.5 glass rounded-xl border-white/5 relative">
@@ -149,10 +149,10 @@ const NewsPage = () => {
                  <BookOpen size={18} className="text-purple-500" />
                  <h2 className="font-black text-sm tracking-tight uppercase">Featured Articles</h2>
               </div>
-              <span className="text-[10px] font-bold text-slate-500">KOTHAGUDEM HERITAGE</span>
+              <span className="text-[10px] font-bold text-slate-500">MIRYALAGUDA HERITAGE</span>
            </div>
            <div className="flex overflow-x-auto gap-5 px-5 pb-2 scrollbar-none">
-              {KOTHAGUDEM_ARTICLES.map(art => (
+              {MIRYALAGUDA_ARTICLES.map(art => (
                 <motion.div 
                   key={art.id} 
                   whileTap={{ scale: 0.98 }}

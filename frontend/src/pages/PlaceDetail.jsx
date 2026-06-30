@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Star, MapPin, Clock, Phone, Navigation, Bookmark, ArrowLeft, Users, Shield, Utensils, AlertCircle } from 'lucide-react';
-import { TOURIST_PLACES, RESTAURANTS, HOTELS } from '../data/kothagudemData';
+import { TOURIST_PLACES, RESTAURANTS, HOTELS } from '../data/miryalagudaData';
 import useStore from '../stores/useStore';
 
 const ALL = [...TOURIST_PLACES, ...RESTAURANTS.map(r => ({ ...r, category: 'Restaurant', description: r.speciality || '' })), ...HOTELS.map(h => ({ ...h, category: 'Hotel', description: h.amenities?.join(', ') || '' }))];
@@ -71,8 +71,8 @@ const PlaceDetail = () => {
         {/* Location */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#64748b', fontSize: '0.82rem', marginBottom: '1rem' }}>
           <MapPin size={14} />
-          {place.address || `Bhadradri Kothagudem District`}
-          {place.distance_from_kothagudem && ` • ${place.distance_from_kothagudem} km from Kothagudem`}
+          {place.address || `Bhadradri Miryalaguda District`}
+          {place.distance_from_miryalaguda && ` • ${place.distance_from_miryalaguda} km from Miryalaguda`}
         </div>
 
         {/* Description */}

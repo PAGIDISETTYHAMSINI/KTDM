@@ -1,4 +1,4 @@
-// HYPERLOCAL KOTHAGUDEM NEWS & ARTICLES
+// HYPERLOCAL MIRYALAGUDA NEWS & ARTICLES
 export const NEWS_CATEGORIES = [
   { id: 'all', label: 'Top News', icon: '🌍' },
   { id: 'politics', label: 'Politics', icon: '⚖️' },
@@ -9,17 +9,17 @@ export const NEWS_CATEGORIES = [
   { id: 'tourism', label: 'Tourism', icon: '🌊' },
 ];
 
-export const KOTHAGUDEM_NEWS = [
+export const MIRYALAGUDA_NEWS = [
   {
     id: "n1",
-    title: "Kothagudem-Bhadrachalam Highway Expansion Project Gains Momentum",
-    summary: "The NHAI has fast-tracked the 4-lane expansion of the Kothagudem to Bhadrachalam highway to reduce travel time by 30 minutes.",
-    content: "The National Highways Authority of India (NHAI) has announced that the expansion of the Kothagudem-Bhadrachalam highway into a 4-lane corridor is now 60% complete. This project, which includes a new bridge over the Godavari tributary, is expected to be fully operational by December 2024. Local residents have welcomed the move as it will significantly ease the weekend rush to the temple town.",
+    title: "Miryalaguda-Bhadrachalam Highway Expansion Project Gains Momentum",
+    summary: "The NHAI has fast-tracked the 4-lane expansion of the Miryalaguda to Bhadrachalam highway to reduce travel time by 30 minutes.",
+    content: "The National Highways Authority of India (NHAI) has announced that the expansion of the Miryalaguda-Bhadrachalam highway into a 4-lane corridor is now 60% complete. This project, which includes a new bridge over the Godavari tributary, is expected to be fully operational by December 2024. Local residents have welcomed the move as it will significantly ease the weekend rush to the temple town.",
     category: "development",
     author: "K. Ramesh, Senior Reporter",
     date: "2024-05-13",
     time: "10:30 AM",
-    location: "Kothagudem-Paloncha Road",
+    location: "Miryalaguda-Paloncha Road",
     image: "https://images.unsplash.com/photo-1545143333-648412544b61?w=800",
     verified: true,
     trending: true,
@@ -42,9 +42,9 @@ export const KOTHAGUDEM_NEWS = [
   },
   {
     id: "n3",
-    title: "SCCL Announces ₹2000 Cr Investment in Solar Power Plants Across Kothagudem",
+    title: "SCCL Announces ₹2000 Cr Investment in Solar Power Plants Across Miryalaguda",
     summary: "Singareni Collieries Company Limited (SCCL) aims to transition to sustainable energy with large-scale solar projects in the mining region.",
-    content: "The Singareni Collieries Company Limited has unveiled a roadmap to set up solar power plants with a total capacity of 300 MW in the Kothagudem and Yellandu areas. This ₹2000 crore investment is part of their 'Green Mining' initiative. The first phase will generate employment for 500 local youth.",
+    content: "The Singareni Collieries Company Limited has unveiled a roadmap to set up solar power plants with a total capacity of 300 MW in the Miryalaguda and Yellandu areas. This ₹2000 crore investment is part of their 'Green Mining' initiative. The first phase will generate employment for 500 local youth.",
     category: "politics",
     author: "M. Satish, SCCL Correspondent",
     date: "2024-05-12",
@@ -59,7 +59,7 @@ export const KOTHAGUDEM_NEWS = [
     id: "n4",
     title: "Local Youth From Paloncha Secures Top Rank in Civils Examination",
     summary: "G. Vamsi Krishna, a resident of Paloncha, has brought laurels to the district by securing a top 100 rank in the UPSC CSE 2023.",
-    content: "The entire district of Bhadradri Kothagudem is celebrating the success of G. Vamsi Krishna. Coming from a modest background in Paloncha, Vamsi's achievement has inspired hundreds of students in the local coaching centers. The District Collector visited his home today to congratulate the family.",
+    content: "The entire district of Bhadradri Miryalaguda is celebrating the success of G. Vamsi Krishna. Coming from a modest background in Paloncha, Vamsi's achievement has inspired hundreds of students in the local coaching centers. The District Collector visited his home today to congratulate the family.",
     category: "education",
     author: "V. Lakshmi, Education Desk",
     date: "2024-05-12",
@@ -102,12 +102,12 @@ export const KOTHAGUDEM_NEWS = [
   }
 ];
 
-export const KOTHAGUDEM_ARTICLES = [
+export const MIRYALAGUDA_ARTICLES = [
   {
     id: "art1",
-    title: "The Coal Capital: A History of Kothagudem and SCCL",
+    title: "The Coal Capital: A History of Miryalaguda and SCCL",
     summary: "How a small forest settlement transformed into the energy hub of South India through coal mining heritage.",
-    content: "The history of Kothagudem is inseparable from the Singareni Collieries Company Limited (SCCL). It began in the late 19th century when British geologists discovered vast coal seams in the Godavari valley. Since then, the 'Black Gold' of Kothagudem has powered the locomotives and power plants of a developing nation. This article explores the evolution of the mining colony into a bustling industrial town.",
+    content: "The history of Miryalaguda is inseparable from the Singareni Collieries Company Limited (SCCL). It began in the late 19th century when British geologists discovered vast coal seams in the Godavari valley. Since then, the 'Black Gold' of Miryalaguda has powered the locomotives and power plants of a developing nation. This article explores the evolution of the mining colony into a bustling industrial town.",
     author: "Heritage Desk",
     category: "History",
     date: "2024-05-10",

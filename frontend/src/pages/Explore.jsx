@@ -8,7 +8,7 @@ import {
   Filter, Bell, Sparkles, ChevronRight
 } from 'lucide-react';
 import useStore from '../stores/useStore';
-import { KOTHAGUDEM_PLACES, LOCAL_NEWS, CURRENT_WEATHER, HIDDEN_GEMS, AI_SUGGESTIONS } from '../data/kothagudemFull';
+import { MIRYALAGUDA_PLACES, LOCAL_NEWS, CURRENT_WEATHER, HIDDEN_GEMS, AI_SUGGESTIONS } from '../data/miryalagudaFull';
 import SectionRow from '../components/explore/SectionRow';
 import { useGeolocation } from '../hooks/useGeolocation';
 
@@ -30,7 +30,7 @@ const ManaUru = () => {
     else if (hour >= 17 && hour < 22) timeKey = 'evening';
     
     const suggestedCats = AI_SUGGESTIONS[timeKey].places;
-    const allPlaces = Object.values(KOTHAGUDEM_PLACES).flat();
+    const allPlaces = Object.values(MIRYALAGUDA_PLACES).flat();
     
     return {
       title: `AI Pick for ${AI_SUGGESTIONS[timeKey].time}`,
@@ -40,7 +40,7 @@ const ManaUru = () => {
   }, []);
 
   // Filter logic for search
-  const allPlaces = useMemo(() => Object.values(KOTHAGUDEM_PLACES).flat(), []);
+  const allPlaces = useMemo(() => Object.values(MIRYALAGUDA_PLACES).flat(), []);
   const searchResults = useMemo(() => {
     if (!searchQuery) return [];
     return allPlaces.filter(p => 
@@ -179,7 +179,7 @@ const ManaUru = () => {
           <SectionRow 
             title="Restaurants & Food Spots"
             emoji="🍛"
-            places={KOTHAGUDEM_PLACES.restaurants}
+            places={MIRYALAGUDA_PLACES.restaurants}
             color="#f97316"
           />
 
@@ -187,7 +187,7 @@ const ManaUru = () => {
           <SectionRow 
             title="Hospitals & Clinics"
             emoji="🏥"
-            places={KOTHAGUDEM_PLACES.hospitals}
+            places={MIRYALAGUDA_PLACES.hospitals}
             color="#dc2626"
           />
 
@@ -195,7 +195,7 @@ const ManaUru = () => {
           <SectionRow 
             title="Hotels & Lodging"
             emoji="🏨"
-            places={KOTHAGUDEM_PLACES.hotels}
+            places={MIRYALAGUDA_PLACES.hotels}
             color="#6366f1"
           />
 
@@ -203,7 +203,7 @@ const ManaUru = () => {
           <SectionRow 
             title="Temples & Cultural Places"
             emoji="🕌"
-            places={KOTHAGUDEM_PLACES.temples}
+            places={MIRYALAGUDA_PLACES.temples}
             color="#a855f7"
           />
 
@@ -211,7 +211,7 @@ const ManaUru = () => {
           <SectionRow 
             title="Shopping & Markets"
             emoji="🛍️"
-            places={KOTHAGUDEM_PLACES.shopping}
+            places={MIRYALAGUDA_PLACES.shopping}
             color="#3b82f6"
           />
 
@@ -219,7 +219,7 @@ const ManaUru = () => {
           <SectionRow 
             title="Tourist Attractions"
             emoji="🏛️"
-            places={KOTHAGUDEM_PLACES.tourist}
+            places={MIRYALAGUDA_PLACES.tourist}
             color="#ec4899"
           />
 
@@ -229,9 +229,9 @@ const ManaUru = () => {
           </div>
 
           <SectionRow 
-            title="Trending in Kothagudem"
+            title="Trending in Miryalaguda"
             emoji="🔥"
-            places={[...KOTHAGUDEM_PLACES.tourist, ...KOTHAGUDEM_PLACES.restaurants].sort((a,b) => b.rating - a.rating).slice(0, 6)}
+            places={[...MIRYALAGUDA_PLACES.tourist, ...MIRYALAGUDA_PLACES.restaurants].sort((a,b) => b.rating - a.rating).slice(0, 6)}
             color="#ef4444"
           />
 
@@ -263,7 +263,7 @@ const ManaUru = () => {
                   <MapPin size={20} />
                </div>
                <div>
-                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Nearby Kothagudem</div>
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Nearby Miryalaguda</div>
                   <div className="text-xs font-bold truncate max-w-[150px]">Detecting Live Location...</div>
                </div>
             </div>

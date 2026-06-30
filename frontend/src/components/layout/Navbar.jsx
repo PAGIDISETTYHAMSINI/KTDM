@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Bell, Globe, Wifi } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../stores/useStore';
-import { TOURIST_PLACES, RESTAURANTS } from '../../data/kothagudemData';
+import { TOURIST_PLACES, RESTAURANTS } from '../../data/miryalagudaData';
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -42,7 +42,7 @@ const Navbar = () => {
               <span className="gradient-text">Manam</span>
             </div>
             <div style={{ fontSize: '0.6rem', color: '#64748b', letterSpacing: '1px', textTransform: 'uppercase' }}>
-              Kothagudem
+              Miryalaguda
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ const ReporterDashboard = () => {
     summary: '',
     content: '',
     category: 'general',
-    area: 'Kothagudem Main',
+    area: 'Miryalaguda Main',
     urgency: 'normal'
   });
 
@@ -23,7 +23,7 @@ const ReporterDashboard = () => {
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
-      setForm({ title: '', summary: '', content: '', category: 'general', area: 'Kothagudem Main', urgency: 'normal' });
+      setForm({ title: '', summary: '', content: '', category: 'general', area: 'Miryalaguda Main', urgency: 'normal' });
     }, 3000);
   };
 
@@ -43,7 +43,7 @@ const ReporterDashboard = () => {
               <input 
                 required
                 type="text"
-                placeholder="What is happening in Kothagudem?"
+                placeholder="What is happening in Miryalaguda?"
                 className="w-full p-4 glass border-white/5 rounded-2xl text-sm focus:border-orange-500/50 outline-none transition-all"
                 value={form.title}
                 onChange={e => setForm({...form, title: e.target.value})}

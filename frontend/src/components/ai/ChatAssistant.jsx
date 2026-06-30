@@ -7,7 +7,7 @@ const QUICK_QUESTIONS = [
   "Plan a 1-day trip",
   "Best waterfalls to visit?",
   "Nearest hospital?",
-  "Best food in Kothagudem?",
+  "Best food in Miryalaguda?",
   "Bogatha waterfall route",
   "Budget trip ideas",
 ];
@@ -17,7 +17,7 @@ const ChatAssistant = () => {
   const [messages, setMessages] = useState([
     {
       role: 'bot',
-      text: "🌿 Namaste! I'm your Kothagudem travel assistant. Ask me about tourist places, food, hotels, emergency contacts, or trip planning!",
+      text: "🌿 Namaste! I'm your Miryalaguda travel assistant. Ask me about tourist places, food, hotels, emergency contacts, or trip planning!",
     },
   ]);
   const [input, setInput] = useState('');
@@ -159,7 +159,7 @@ const ChatAssistant = () => {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendMessage()}
-                placeholder="Ask about Kothagudem..."
+                placeholder="Ask about Miryalaguda..."
                 style={{
                   flex: 1, padding: '0.6rem 0.9rem',
                   background: 'rgba(255,255,255,0.06)',

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { KOTHAGUDEM_NEWS } from '../data/newsData';
-import { TOURIST_PLACES, RESTAURANTS, HOTELS, HOSPITALS } from '../data/kothagudemData';
+import { MIRYALAGUDA_NEWS } from '../data/newsData';
+import { TOURIST_PLACES, RESTAURANTS, HOTELS, HOSPITALS } from '../data/miryalagudaData';
 
 // Make sure to set VITE_API_URL in your deployment environment (e.g., Render)
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
@@ -30,7 +30,7 @@ export const NewsAPI = {
     } catch (error) {
       console.warn("Backend unavailable, falling back to mock news data.");
       // Fallback logic
-      let data = KOTHAGUDEM_NEWS;
+      let data = MIRYALAGUDA_NEWS;
       if (category !== 'All') {
         data = data.filter(n => n.category.toLowerCase() === category.toLowerCase());
       }

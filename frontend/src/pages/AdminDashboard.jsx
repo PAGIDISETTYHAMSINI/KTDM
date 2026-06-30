@@ -5,7 +5,7 @@ import {
   BarChart3, AlertCircle, ShieldAlert, 
   TrendingUp, Activity, Search, Filter
 } from 'lucide-react';
-import { KOTHAGUDEM_NEWS } from '../data/newsData';
+import { MIRYALAGUDA_NEWS } from '../data/newsData';
 import { NewsAPI } from '../services/api';
 
 const AdminDashboard = () => {
@@ -64,7 +64,7 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-[#0a0a0f] pt-[4.5rem] pb-[5.5rem] text-white">
       <div className="px-5 mb-8">
         <h1 className="text-2xl font-black mb-1">Admin <span className="gradient-text">Ecosystem</span></h1>
-        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Kothagudem Control Center</p>
+        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Miryalaguda Control Center</p>
       </div>
 
       {/* Stats Grid */}
